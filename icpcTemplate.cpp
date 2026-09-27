@@ -20,3 +20,13 @@ vector<int> kmp(string s, string p){
     }
     return ans;
 }
+
+// divs[x] contains all divisors of x in increasing order
+const int N = 2e5;
+vector<vector<int>> divs(N+1);
+
+void build_divs(){
+    for(int d=1;d<=N;d++)
+        for(int x=d;x<=N;x+=d)
+            divs[x].push_back(d);
+}
