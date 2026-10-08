@@ -1,3 +1,24 @@
+#ifdef LOCAL
+template<class A, class B> ostream& operator<<(ostream& o, const pair<A,B>& p) {
+    return o << '(' << p.first << ", " << p.second << ')';
+}
+template<class T, class = decltype(begin(declval<T>())),
+         class = enable_if_t<!is_same_v<T, string>>>
+ostream& operator<<(ostream& o, const T& c) {
+    o << '{'; for (auto it = begin(c); it != end(c); ++it) o << (it == begin(c) ? "" : ", ") << *it;
+    return o << '}';
+}
+void _dbg() { cerr << endl; }
+template<class H, class... T> void _dbg(H h, T... t) {
+    cerr << h; if (sizeof...(t)) cerr << ", "; _dbg(t...);
+}
+#define dbg(...) cerr << "[" << #__VA_ARGS__ << "]: ", _dbg(__VA_ARGS__)
+#else
+#define dbg(...) 42
+#endif
+
+
+
 //returns all 0-indexed starting positions where pattern p(substring) occurs in string s
 vector<int> kmp(string s, string p){
     int n=s.size(), m=p.size();
