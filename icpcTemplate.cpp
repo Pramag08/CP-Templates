@@ -30,3 +30,33 @@ void build_divs(){
         for(int x=d;x<=N;x+=d)
             divs[x].push_back(d);
 }
+
+//Fenwick point update
+struct Fenwick {
+    int n;
+    vector<ll> tree;
+
+    Fenwick(int n) : n(n), tree(n + 1, 0) {}
+
+    // Adds delta to element at 0-based index i
+    void add(int i, ll delta) {
+        for (++i; i <= n; i += i & -i) {
+            tree[i] += delta;
+        }
+    }
+
+    // Returns prefix sum in [0, i]
+    ll query(int i) {
+        ll sum = 0;
+        for (++i; i > 0; i -= i & -i) {
+            sum += tree[i];
+        }
+        return sum;
+    }
+
+    // Returns range sum in [l, r] (0-based)
+    ll query(int l, int r) {
+        if (l > r || r < 0) return 0;
+        return query(r) - (l > 0 ? query(l - 1) : 0);
+    }
+};
